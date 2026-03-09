@@ -345,8 +345,8 @@
       to   { opacity: 1; transform: translateY(0); }
     }
     .reveal {
-      opacity: 0; transform: translateY(28px);
-      transition: opacity 0.65s ease, transform 0.65s ease;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
     }
     .reveal.visible { opacity: 1; transform: none; }
 
@@ -808,13 +808,23 @@
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
+    entries.forEach((e) => {
       if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        e.target.classList.add('visible');
       }
     });
-  }, { threshold: 0.1 });
+  }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
   reveals.forEach(el => observer.observe(el));
+
+  // Trigger any reveals already in viewport on load
+  window.addEventListener('load', () => {
+    reveals.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight) {
+        el.classList.add('visible');
+      }
+    });
+  });
 
   const sections = document.querySelectorAll('section[id]');
   c

@@ -1276,6 +1276,47 @@ body {
   color: rgba(255,255,255,0.2);
 }
 
+
+/* ── MISSING CLASSES FIX ── */
+
+/* Hero layout */
+.hero-left { flex: 1; }
+
+/* About layout */
+.about-text { }
+.about-info { }
+
+/* Experience */
+.active-exp .exp-card {
+  border-color: rgba(13,140,122,0.25);
+  border-left: 3px solid var(--teal);
+}
+.exp-title-group {
+  display: flex;
+  flex-direction: column;
+}
+.exp-badge.current {
+  background: var(--teal-subtle);
+  color: var(--teal);
+  border: 1px solid rgba(13,140,122,0.25);
+}
+
+/* Education */
+.edu-right {
+  flex: 1;
+}
+
+/* Projects */
+.proj-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Contact layout */
+.contact-left { }
+.contact-right { }
+
 /* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
   .skills-grid { grid-template-columns: repeat(2, 1fr); }

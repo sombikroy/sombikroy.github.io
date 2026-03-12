@@ -35,49 +35,6 @@ body {
   overflow-x: hidden;
 }
 
-/* ── LOADER ── */
-.loader {
-  position: fixed;
-  inset: 0;
-  background: var(--navy);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-  gap: 24px;
-  transition: opacity 0.5s, visibility 0.5s;
-}
-
-.loader.hidden { opacity: 0; visibility: hidden; }
-
-.loader-text {
-  font-family: var(--ff-display);
-  font-size: 3rem;
-  font-weight: 700;
-  color: var(--white);
-  letter-spacing: 0.1em;
-}
-
-.loader-bar {
-  width: 200px; height: 2px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.loader-fill {
-  height: 100%;
-  background: var(--teal);
-  border-radius: 2px;
-  width: 0;
-  animation: loadFill 1.4s ease forwards;
-}
-
-@keyframes loadFill {
-  to { width: 100%; }
-}
-
 /* ── NAVBAR ── */
 .navbar {
   position: fixed;

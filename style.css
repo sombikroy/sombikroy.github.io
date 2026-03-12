@@ -33,33 +33,6 @@ body {
   color: var(--text);
   line-height: 1.7;
   overflow-x: hidden;
-  cursor: none;
-}
-
-/* ── CUSTOM CURSOR ── */
-.cursor {
-  width: 10px; height: 10px;
-  background: var(--teal);
-  border-radius: 50%;
-  position: fixed;
-  top: 0; left: 0;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: transform 0.1s, background 0.3s;
-}
-
-.cursor-follower {
-  width: 32px; height: 32px;
-  border: 1.5px solid var(--teal);
-  border-radius: 50%;
-  position: fixed;
-  top: 0; left: 0;
-  pointer-events: none;
-  z-index: 9998;
-  transform: translate(-50%, -50%);
-  transition: transform 0.12s ease, width 0.3s, height 0.3s, opacity 0.3s;
-  opacity: 0.6;
 }
 
 /* ── LOADER ── */

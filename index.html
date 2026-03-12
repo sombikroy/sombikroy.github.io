@@ -4,271 +4,557 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sombik Roy — POD Plugin Developer</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- NAV -->
-<nav id="navbar">
-  <a class="nav-logo" href="#">Sombik Roy</a>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#education">Education</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#achievements">Achievements</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-content">
-      <div class="hero-tag">Available for Opportunities</div>
-      <h1>Sombik Roy</h1>
-      <p class="hero-title">POD Plugin Developer</p>
-      <p class="hero-bio">A passionate developer specialising in SAP Digital Manufacturing and POD Plugin Development. I build custom Production Operator Dashboard solutions, integrating manufacturing data with backend systems for real-time visibility and performance.</p>
-      <div class="hero-cta">
-        <a href="#contact" class="btn btn-primary">Get in Touch</a>
-        <a href="#projects" class="btn btn-outline">View My Work</a>
-      </div>
-    </div>
-    <div class="hero-photo-wrap">
-      <img src="me.jpg" alt="Sombik Roy" class="hero-photo">
-    </div>
+  <!-- LOADER -->
+  <div class="loader" id="loader">
+    <div class="loader-text">SR</div>
+    <div class="loader-bar"><div class="loader-fill"></div></div>
   </div>
-</section>
 
-<!-- ABOUT -->
-<section id="about" class="section-cream">
-  <div class="container">
-    <div class="about-grid">
-      <div class="about-text">
-        <p class="section-label">About Me</p>
-        <h2 class="section-title">Who I Am</h2>
-        <p>I'm Sombik Roy, a POD Plugin Developer based in Kolkata, West Bengal, with a B.Tech in Electrical Engineering from IIT (ISM) Dhanbad. I specialise in SAP Digital Manufacturing — designing and building custom POD plugins that enhance Production Operator Dashboard functionality.</p>
-        <p>My work spans UI customisation using JavaScript, REST API integration, SAP BTP deployment, and manufacturing workflow optimisation. I'm driven by solving complex integration challenges and delivering real-time data visibility on the shop floor.</p>
-        <div class="about-stats">
-          <div class="stat-card"><div class="stat-number">SAP</div><div class="stat-label">DM Specialist</div></div>
-          <div class="stat-card"><div class="stat-number">IIT</div><div class="stat-label">ISM Dhanbad Graduate</div></div>
-          <div class="stat-card"><div class="stat-number">3+</div><div class="stat-label">Roles &amp; Experiences</div></div>
-          <div class="stat-card"><div class="stat-number">JEE</div><div class="stat-label">Mains &amp; Advanced Qualifier</div></div>
+  <!-- CURSOR -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-follower" id="cursorFollower"></div>
+
+  <!-- NAVBAR -->
+  <header class="navbar" id="navbar">
+    <a class="nav-logo" href="#">
+      <span class="logo-sr">SR</span>
+      <span class="logo-name">Sombik Roy</span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#about" data-section="about">About</a>
+      <a href="#skills" data-section="skills">Skills</a>
+      <a href="#experience" data-section="experience">Experience</a>
+      <a href="#education" data-section="education">Education</a>
+      <a href="#projects" data-section="projects">Projects</a>
+      <a href="#achievements" data-section="achievements">Achievements</a>
+      <a href="#contact" data-section="contact">Contact</a>
+    </nav>
+    <div class="nav-right">
+      <a href="mailto:sombikroy2000@gmail.com" class="nav-cta">Hire Me</a>
+      <button class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MOBILE NAV -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#education">Education</a>
+    <a href="#projects">Projects</a>
+    <a href="#achievements">Achievements</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg">
+      <div class="hero-orb orb1"></div>
+      <div class="hero-orb orb2"></div>
+      <div class="hero-grid"></div>
+    </div>
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-available">
+          <span class="available-dot"></span>
+          Available for Opportunities
+        </div>
+        <h1 class="hero-name">
+          <span class="name-line">Sombik</span>
+          <span class="name-line italic-name">Roy.</span>
+        </h1>
+        <div class="hero-role-wrap">
+          <span class="role-line"></span>
+          <p class="hero-role">POD Plugin Developer</p>
+        </div>
+        <p class="hero-bio">SAP Digital Manufacturing specialist crafting custom Production Operator Dashboard plugins — bridging manufacturing systems with real-time data intelligence.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-glow">
+            <span>Get in Touch</span>
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="#projects" class="btn btn-ring">View My Work</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hstat"><span class="hstat-val">SAP DM</span><span class="hstat-key">Specialist</span></div>
+          <div class="hstat-div"></div>
+          <div class="hstat"><span class="hstat-val">IIT</span><span class="hstat-key">ISM Dhanbad</span></div>
+          <div class="hstat-div"></div>
+          <div class="hstat"><span class="hstat-val">3+</span><span class="hstat-key">Experiences</span></div>
         </div>
       </div>
-      <div class="about-details">
-        <div class="detail-row"><span class="detail-label">Full Name</span><span class="detail-value">Sombik Roy</span></div>
-        <div class="detail-row"><span class="detail-label">Location</span><span class="detail-value">Kolkata, West Bengal, India</span></div>
-        <div class="detail-row"><span class="detail-label">Phone</span><span class="detail-value">+91 8583835893</span></div>
-        <div class="detail-row"><span class="detail-label">Email</span><span class="detail-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bdced2d0dfd4d6cfd2c48f8d8d8dfddad0dcd4d193ded2d0">[email&#160;protected]</a></span></div>
-        <div class="detail-row"><span class="detail-label">Current Role</span><span class="detail-value">Freelance POD Plugin Developer</span></div>
-        <div class="detail-row"><span class="detail-label">Availability</span><span class="detail-value">Open to Full-time / Freelance</span></div>
+      <div class="hero-right">
+        <div class="photo-container">
+          <div class="photo-bg"></div>
+          <img src="me.jpg" alt="Sombik Roy" class="hero-photo">
+          <div class="photo-badge badge-sap">SAP BTP</div>
+          <div class="photo-badge badge-js">JavaScript</div>
+          <div class="photo-badge badge-iit">IIT ISM</div>
+          <div class="photo-ring-1"></div>
+          <div class="photo-ring-2"></div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- SKILLS -->
-<section id="skills" class="section-white">
-  <div class="container">
-    <p class="section-label">What I Know</p>
-    <h2 class="section-title">Skills &amp; Expertise</h2>
-    <div class="skills-grid">
-      <div class="skill-category">
-        <div class="skill-cat-title">SAP Technologies</div>
-        <div class="skill-tags">
-          <span>SAP Digital Manufacturing</span>
-          <span>POD Plugin Development</span>
-          <span>POD Designer</span>
-          <span>SAP BTP Integration</span>
-        </div>
-      </div>
-      <div class="skill-category">
-        <div class="skill-cat-title">Programming</div>
-        <div class="skill-tags">
-          <span>JavaScript</span><span>HTML5</span><span>CSS3</span><span>PHP</span><span>Python</span>
-        </div>
-      </div>
-      <div class="skill-category">
-        <div class="skill-cat-title">Backend &amp; APIs</div>
-        <div class="skill-tags">
-          <span>REST APIs</span><span>JSON</span><span>MySQL</span><span>Database Optimization</span>
-        </div>
-      </div>
-      <div class="skill-category">
-        <div class="skill-cat-title">Tools &amp; Platforms</div>
-        <div class="skill-tags">
-          <span>Git</span><span>Postman</span><span>SAP BTP</span><span>VS Code</span>
-        </div>
-      </div>
-      <div class="skill-category">
-        <div class="skill-cat-title">Core Competencies</div>
-        <div class="skill-tags">
-          <span>MES</span><span>Plugin Architecture</span><span>System Integration</span><span>Performance Optimization</span><span>Debugging</span>
-        </div>
-      </div>
-      <div class="skill-category">
-        <div class="skill-cat-title">Additional Skills</div>
-        <div class="skill-tags">
-          <span>LLM Development</span><span>Digital Marketing</span><span>Market Research</span>
-        </div>
-      </div>
+    <div class="hero-scroll">
+      <span>Scroll down</span>
+      <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- EXPERIENCE -->
-<section id="experience" class="section-cream">
-  <div class="container">
-    <p class="section-label">Career Path</p>
-    <h2 class="section-title">Work Experience</h2>
-    <div class="timeline">
-
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-card">
-          <div class="timeline-meta">
-            <span class="timeline-role">POD Plugin Developer</span>
-            <span class="timeline-period">Aug 2025 – Present</span>
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-intro">
+        <span class="section-num">01</span>
+        <span class="section-tag">About Me</span>
+      </div>
+      <h2 class="section-heading">Who I <em>Am</em></h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>I'm a POD Plugin Developer based in Kolkata, West Bengal, with a B.Tech in Electrical Engineering from IIT (ISM) Dhanbad. I specialise in SAP Digital Manufacturing — designing and building custom plugins that enhance Production Operator Dashboard functionality.</p>
+          <p>My work spans UI customization using JavaScript, REST API integration, SAP BTP deployment, and manufacturing workflow optimization. I thrive on solving complex integration challenges and delivering real-time data visibility on the shop floor.</p>
+          <div class="about-chips">
+            <span class="chip">📍 Kolkata, India</span>
+            <span class="chip">💼 Freelance POD Developer</span>
+            <span class="chip">✅ Open to Opportunities</span>
           </div>
-          <div class="timeline-company">Freelancing · Remote</div>
-          <span class="timeline-type">Part-Time</span>
-          <ul class="timeline-list">
-            <li>Designed and developed custom SAP DM POD plugins to enhance Production Operator Dashboard functionality.</li>
-            <li>Implemented UI customizations using JavaScript and integrated backend services via REST APIs.</li>
-            <li>Extended standard SAP DM features through plugin architecture and POD Designer configurations.</li>
-            <li>Integrated manufacturing data with backend systems ensuring real-time data visibility.</li>
-            <li>Performed debugging, performance optimization, and deployment support in SAP BTP environment.</li>
-            <li>Collaborated with senior consultants on solution design and manufacturing workflow mapping.</li>
-          </ul>
         </div>
-      </div>
-
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-card">
-          <div class="timeline-meta">
-            <span class="timeline-role">Research Math Analyst</span>
-            <span class="timeline-period">Oct 2024 – Dec 2024</span>
+        <div class="about-info">
+          <div class="info-card">
+            <div class="info-row"><span class="info-key">Name</span><span class="info-val">Sombik Roy</span></div>
+            <div class="info-row"><span class="info-key">Location</span><span class="info-val">Kolkata, West Bengal</span></div>
+            <div class="info-row"><span class="info-key">Phone</span><span class="info-val">+91 8583835893</span></div>
+            <div class="info-row"><span class="info-key">Email</span><span class="info-val">sombikroy2000@gmail.com</span></div>
+            <div class="info-row"><span class="info-key">Degree</span><span class="info-val">B.Tech, IIT ISM Dhanbad</span></div>
+            <div class="info-row last"><span class="info-key">Status</span><span class="info-val status-open">● Open to Work</span></div>
           </div>
-          <div class="timeline-company">Turing · Remote</div>
-          <span class="timeline-type">Full-Time</span>
-          <ul class="timeline-list">
-            <li>Worked on the Apple Research Project — LLM model evaluation and development.</li>
-            <li>Modified and contributed to developing large language models.</li>
-            <li>Utilised Turing University resources to enhance LLM model capabilities.</li>
-          </ul>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-card">
-          <div class="timeline-meta">
-            <span class="timeline-role">Sales &amp; Marketing Intern</span>
-            <span class="timeline-period">May 2022 – Aug 2022</span>
+  <!-- SKILLS -->
+  <section class="section section-dark" id="skills">
+    <div class="container">
+      <div class="section-intro">
+        <span class="section-num light">02</span>
+        <span class="section-tag light">Expertise</span>
+      </div>
+      <h2 class="section-heading light">Skills &amp; <em>Technologies</em></h2>
+      <div class="skills-grid">
+        <div class="skill-card" data-delay="0">
+          <div class="skill-card-top">
+            <span class="skill-num">01</span>
+            <span class="skill-icon">⚙️</span>
           </div>
-          <div class="timeline-company">Digital Marveled · Kolkata</div>
-          <span class="timeline-type">Internship</span>
-          <ul class="timeline-list">
-            <li>Digital marketing campaigns across various social media platforms.</li>
-            <li>Campaign marketing, brand awareness, social media management and market research.</li>
-          </ul>
+          <h3>SAP Technologies</h3>
+          <div class="skill-pills">
+            <span>SAP Digital Manufacturing</span>
+            <span>POD Plugin Development</span>
+            <span>POD Designer</span>
+            <span>SAP BTP Integration</span>
+          </div>
+        </div>
+        <div class="skill-card" data-delay="100">
+          <div class="skill-card-top">
+            <span class="skill-num">02</span>
+            <span class="skill-icon">💻</span>
+          </div>
+          <h3>Programming</h3>
+          <div class="skill-pills">
+            <span>JavaScript</span>
+            <span>HTML5</span>
+            <span>CSS3</span>
+            <span>PHP</span>
+            <span>Python</span>
+          </div>
+        </div>
+        <div class="skill-card" data-delay="200">
+          <div class="skill-card-top">
+            <span class="skill-num">03</span>
+            <span class="skill-icon">🔌</span>
+          </div>
+          <h3>Backend &amp; APIs</h3>
+          <div class="skill-pills">
+            <span>REST APIs</span>
+            <span>JSON</span>
+            <span>MySQL</span>
+            <span>Database Optimization</span>
+          </div>
+        </div>
+        <div class="skill-card" data-delay="0">
+          <div class="skill-card-top">
+            <span class="skill-num">04</span>
+            <span class="skill-icon">🛠️</span>
+          </div>
+          <h3>Tools &amp; Platforms</h3>
+          <div class="skill-pills">
+            <span>Git</span>
+            <span>Postman</span>
+            <span>SAP BTP</span>
+            <span>VS Code</span>
+          </div>
+        </div>
+        <div class="skill-card" data-delay="100">
+          <div class="skill-card-top">
+            <span class="skill-num">05</span>
+            <span class="skill-icon">🧠</span>
+          </div>
+          <h3>Core Competencies</h3>
+          <div class="skill-pills">
+            <span>MES</span>
+            <span>Plugin Architecture</span>
+            <span>System Integration</span>
+            <span>Performance Optimization</span>
+            <span>Debugging</span>
+          </div>
+        </div>
+        <div class="skill-card" data-delay="200">
+          <div class="skill-card-top">
+            <span class="skill-num">06</span>
+            <span class="skill-icon">🌐</span>
+          </div>
+          <h3>Additional</h3>
+          <div class="skill-pills">
+            <span>LLM Development</span>
+            <span>Digital Marketing</span>
+            <span>Market Research</span>
+          </div>
         </div>
       </div>
-
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- EDUCATION -->
-<section id="education" class="section-white">
-  <div class="container">
-    <p class="section-label">Academic Background</p>
-    <h2 class="section-title">Education</h2>
-    <div class="edu-card">
-      <div class="edu-degree">Bachelor of Technology — Electrical Engineering</div>
-      <div class="edu-school">Indian Institute of Technology (ISM), Dhanbad</div>
-      <div class="edu-year">Aug 2019 – May 2024</div>
-      <div class="edu-desc">One of India's premier technical institutions. Strong foundation in mathematics, systems, and computing. Admitted through JEE Mains &amp; Advanced qualification.</div>
+  <!-- EXPERIENCE -->
+  <section class="section" id="experience">
+    <div class="container">
+      <div class="section-intro">
+        <span class="section-num">03</span>
+        <span class="section-tag">Career</span>
+      </div>
+      <h2 class="section-heading">Work <em>Experience</em></h2>
+      <div class="exp-list">
+
+        <div class="exp-item active-exp">
+          <div class="exp-left">
+            <div class="exp-dot active-dot"></div>
+            <div class="exp-line"></div>
+          </div>
+          <div class="exp-card">
+            <div class="exp-card-header">
+              <div class="exp-title-group">
+                <span class="exp-badge current">Current</span>
+                <h3 class="exp-role">POD Plugin Developer</h3>
+                <p class="exp-company">Freelancing · Remote</p>
+              </div>
+              <div class="exp-meta">
+                <span class="exp-period">Aug 2025 – Present</span>
+                <span class="exp-type">Part-Time</span>
+              </div>
+            </div>
+            <ul class="exp-points">
+              <li>Designed and developed custom SAP DM POD plugins to enhance Production Operator Dashboard functionality.</li>
+              <li>Implemented UI customizations using JavaScript and integrated backend services via REST APIs.</li>
+              <li>Extended standard SAP DM features through plugin architecture and POD Designer configurations.</li>
+              <li>Integrated manufacturing data with backend systems ensuring real-time data visibility.</li>
+              <li>Performed debugging, performance optimization, and deployment support in SAP BTP environment.</li>
+              <li>Collaborated with senior consultants on solution design and manufacturing workflow mapping.</li>
+            </ul>
+            <div class="exp-tech">
+              <span>SAP DM</span><span>JavaScript</span><span>REST API</span><span>SAP BTP</span><span>POD Designer</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-left">
+            <div class="exp-dot"></div>
+            <div class="exp-line"></div>
+          </div>
+          <div class="exp-card">
+            <div class="exp-card-header">
+              <div class="exp-title-group">
+                <h3 class="exp-role">Research Math Analyst</h3>
+                <p class="exp-company">Turing · Remote</p>
+              </div>
+              <div class="exp-meta">
+                <span class="exp-period">Oct 2024 – Dec 2024</span>
+                <span class="exp-type">Full-Time</span>
+              </div>
+            </div>
+            <ul class="exp-points">
+              <li>Worked on Apple Research Project — LLM model evaluation and development.</li>
+              <li>Modified and contributed to developing large language models.</li>
+              <li>Utilized Turing University resources to develop LLM models.</li>
+            </ul>
+            <div class="exp-tech">
+              <span>Python</span><span>LLM</span><span>Research</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-left">
+            <div class="exp-dot"></div>
+          </div>
+          <div class="exp-card">
+            <div class="exp-card-header">
+              <div class="exp-title-group">
+                <h3 class="exp-role">Sales &amp; Marketing Intern</h3>
+                <p class="exp-company">Digital Marveled · Kolkata</p>
+              </div>
+              <div class="exp-meta">
+                <span class="exp-period">May 2022 – Aug 2022</span>
+                <span class="exp-type">Internship</span>
+              </div>
+            </div>
+            <ul class="exp-points">
+              <li>Worked on digital marketing via various social media platforms.</li>
+              <li>Campaign Marketing, Brand Awareness, Social Media Management and Market Research.</li>
+            </ul>
+            <div class="exp-tech">
+              <span>Digital Marketing</span><span>Social Media</span><span>Brand Awareness</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- PROJECTS -->
-<section id="projects" class="section-cream">
-  <div class="container">
-    <p class="section-label">My Work</p>
-    <h2 class="section-title">Projects</h2>
-    <div class="projects-grid">
-      <div class="project-card">
-        <div class="project-header"><span class="project-icon">🏭</span></div>
-        <div class="project-body">
-          <div class="project-name">Custom SAP DM POD Plugin</div>
-          <div class="project-desc">Designed and developed a custom POD plugin extending SAP Digital Manufacturing dashboard with real-time manufacturing data visibility and UI enhancements.</div>
-          <div class="project-tech">
+  <!-- EDUCATION -->
+  <section class="section section-dark" id="education">
+    <div class="container">
+      <div class="section-intro">
+        <span class="section-num light">04</span>
+        <span class="section-tag light">Academic</span>
+      </div>
+      <h2 class="section-heading light">Education</h2>
+      <div class="edu-showcase">
+        <div class="edu-left">
+          <div class="edu-logo-box">
+            <span>IIT</span>
+            <small>ISM</small>
+          </div>
+          <div class="edu-year-badge">2019 – 2024</div>
+        </div>
+        <div class="edu-right">
+          <span class="edu-field">Electrical Engineering</span>
+          <h3 class="edu-degree">Bachelor of Technology</h3>
+          <p class="edu-uni">Indian Institute of Technology (ISM), Dhanbad</p>
+          <p class="edu-desc">One of India's premier technical institutions — strong foundation in mathematics, systems, and computing. Admitted through JEE Mains &amp; Advanced.</p>
+          <div class="edu-highlights">
+            <div class="edu-hl"><span>🏆</span> JEE Advanced Qualified</div>
+            <div class="edu-hl"><span>🎯</span> JEE Mains Qualified</div>
+            <div class="edu-hl"><span>⚡</span> Electrical Engineering</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="section" id="projects">
+    <div class="container">
+      <div class="section-intro">
+        <span class="section-num">05</span>
+        <span class="section-tag">Portfolio</span>
+      </div>
+      <h2 class="section-heading">My <em>Projects</em></h2>
+      <div class="projects-grid">
+
+        <div class="proj-card">
+          <div class="proj-top">
+            <div class="proj-emoji">🏭</div>
+            <div class="proj-links">
+              <span class="proj-tag">SAP DM</span>
+            </div>
+          </div>
+          <h3>Custom SAP DM POD Plugin</h3>
+          <p>Designed and developed a custom POD plugin extending SAP Digital Manufacturing dashboard with real-time manufacturing data visibility and UI enhancements.</p>
+          <div class="proj-tech">
             <span>SAP DM</span><span>JavaScript</span><span>REST API</span><span>SAP BTP</span>
           </div>
         </div>
-      </div>
-      <div class="project-card">
-        <div class="project-header"><span class="project-icon">🤖</span></div>
-        <div class="project-body">
-          <div class="project-name">LLM Research — Apple Project</div>
-          <div class="project-desc">Contributed to Apple's research project at Turing — evaluating and modifying large language models to improve mathematical reasoning and performance.</div>
-          <div class="project-tech">
+
+        <div class="proj-card proj-featured">
+          <div class="proj-top">
+            <div class="proj-emoji">🤖</div>
+            <div class="proj-links">
+              <span class="proj-tag">AI / LLM</span>
+            </div>
+          </div>
+          <h3>LLM Research — Apple Project</h3>
+          <p>Contributed to Apple's research project at Turing — evaluating and modifying large language models to improve mathematical reasoning and performance.</p>
+          <div class="proj-tech">
             <span>Python</span><span>LLM</span><span>Research</span>
           </div>
         </div>
-      </div>
-      <div class="project-card">
-        <div class="project-header"><span class="project-icon">🔗</span></div>
-        <div class="project-body">
-          <div class="project-name">Manufacturing System Integration</div>
-          <div class="project-desc">Built backend integrations connecting MES with SAP BTP, enabling seamless data flow and real-time production insights via REST APIs and MySQL.</div>
-          <div class="project-tech">
+
+        <div class="proj-card">
+          <div class="proj-top">
+            <div class="proj-emoji">🔗</div>
+            <div class="proj-links">
+              <span class="proj-tag">Integration</span>
+            </div>
+          </div>
+          <h3>Manufacturing System Integration</h3>
+          <p>Built backend integrations connecting MES with SAP BTP, enabling seamless data flow and real-time production insights via REST APIs and MySQL.</p>
+          <div class="proj-tech">
             <span>MySQL</span><span>REST API</span><span>SAP BTP</span><span>JSON</span>
           </div>
         </div>
+
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ACHIEVEMENTS -->
-<section id="achievements" class="section-white">
-  <div class="container">
-    <p class="section-label">Recognition</p>
-    <h2 class="section-title">Achievements</h2>
-    <div class="achieve-grid">
-      <div class="achieve-card"><div class="achieve-medal">🏆</div><div><div class="achieve-title">Qualified JEE Advanced</div><div class="achieve-org">IIT Joint Entrance Examination</div><div class="achieve-year">2019</div></div></div>
-      <div class="achieve-card"><div class="achieve-medal">🎯</div><div><div class="achieve-title">Qualified JEE Mains</div><div class="achieve-org">National Testing Agency (NTA)</div><div class="achieve-year">2019</div></div></div>
-      <div class="achieve-card"><div class="achieve-medal">🎓</div><div><div class="achieve-title">B.Tech — IIT (ISM) Dhanbad</div><div class="achieve-org">Indian Institute of Technology</div><div class="achieve-year">2024</div></div></div>
-      <div class="achieve-card"><div class="achieve-medal">🤝</div><div><div class="achieve-title">Apple LLM Research Contributor</div><div class="achieve-org">Turing — Apple Research Project</div><div class="achieve-year">2024</div></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact" class="section-navy">
-  <div class="container">
-    <div class="contact-grid">
-      <div class="contact-info">
-        <p class="section-label teal-label">Say Hello</p>
-        <h2 class="section-title white-title">Get In Touch</h2>
-        <p class="contact-desc">Open to full-time roles, freelance SAP DM projects, and collaborations in plugin development and system integration.</p>
-        <div class="contact-links">
-          <a href="/cdn-cgi/l/email-protection#0b786466696260796472393b3b3b4b6c666a626725686466" class="clink"><span class="clink-label">Email</span><span class="clink-val"><span class="__cf_email__" data-cfemail="8af9e5e7e8e3e1f8e5f3b8bababacaede7ebe3e6a4e9e5e7">[email&#160;protected]</span></span></a>
-          <a href="tel:+918583835893" class="clink"><span class="clink-label">Phone</span><span class="clink-val">+91 8583835893</span></a>
-          <a href="https://github.com/sombikroy" target="_blank" class="clink"><span class="clink-label">GitHub</span><span class="clink-val">github.com/sombikroy</span></a>
-          <a href="https://linkedin.com/in/" target="_blank" class="clink"><span class="clink-label">LinkedIn</span><span class="clink-val">Add your LinkedIn URL</span></a>
+  <!-- ACHIEVEMENTS -->
+  <section class="section section-teal" id="achievements">
+    <div class="container">
+      <div class="section-intro">
+        <span class="section-num light">06</span>
+        <span class="section-tag light">Recognition</span>
+      </div>
+      <h2 class="section-heading light">Achievements</h2>
+      <div class="achieve-grid">
+        <div class="achieve-item">
+          <div class="achieve-icon">🏆</div>
+          <div class="achieve-body">
+            <h4>Qualified JEE Advanced</h4>
+            <p>IIT Joint Entrance Examination · 2019</p>
+          </div>
+          <div class="achieve-year">2019</div>
+        </div>
+        <div class="achieve-item">
+          <div class="achieve-icon">🎯</div>
+          <div class="achieve-body">
+            <h4>Qualified JEE Mains</h4>
+            <p>National Testing Agency · 2019</p>
+          </div>
+          <div class="achieve-year">2019</div>
+        </div>
+        <div class="achieve-item">
+          <div class="achieve-icon">🎓</div>
+          <div class="achieve-body">
+            <h4>B.Tech — IIT (ISM) Dhanbad</h4>
+            <p>Indian Institute of Technology · 2024</p>
+          </div>
+          <div class="achieve-year">2024</div>
+        </div>
+        <div class="achieve-item">
+          <div class="achieve-icon">🤝</div>
+          <div class="achieve-body">
+            <h4>Apple LLM Research Contributor</h4>
+            <p>Turing — Apple Research Project · 2024</p>
+          </div>
+          <div class="achieve-year">2024</div>
         </div>
       </div>
-      <form class="contact-form">
-        <div class="form-group"><label>Name</label><input type="text" placeholder="Your name"></div>
-        <div class="form-group"><label>Email</label><input type="email" placeholder="your@email.com"></div>
-        <div class="form-group"><label>Subject</label><input type="text" placeholder="What's this about?"></div>
-        <div class="form-group"><label>Message</label><textarea rows="4" placeholder="Tell me about your project…"></textarea></div>
-        <button type="submit
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section section-dark" id="contact">
+    <div class="container">
+      <div class="section-intro">
+        <span class="section-num light">07</span>
+        <span class="section-tag light">Contact</span>
+      </div>
+      <h2 class="section-heading light">Let's <em>Connect</em></h2>
+      <div class="contact-wrap">
+        <div class="contact-left">
+          <p class="contact-desc">Open to full-time roles, freelance SAP DM projects, and collaborations in plugin development and system integration. Let's build something great together.</p>
+          <div class="contact-cards">
+            <a href="mailto:sombikroy2000@gmail.com" class="contact-card">
+              <div class="cc-icon">✉️</div>
+              <div class="cc-body">
+                <span class="cc-label">Email</span>
+                <span class="cc-val">sombikroy2000@gmail.com</span>
+              </div>
+              <span class="cc-arrow">→</span>
+            </a>
+            <a href="tel:+918583835893" class="contact-card">
+              <div class="cc-icon">📞</div>
+              <div class="cc-body">
+                <span class="cc-label">Phone</span>
+                <span class="cc-val">+91 8583835893</span>
+              </div>
+              <span class="cc-arrow">→</span>
+            </a>
+            <a href="https://github.com/sombikroy" target="_blank" class="contact-card">
+              <div class="cc-icon">💻</div>
+              <div class="cc-body">
+                <span class="cc-label">GitHub</span>
+                <span class="cc-val">github.com/sombikroy</span>
+              </div>
+              <span class="cc-arrow">→</span>
+            </a>
+            <a href="https://linkedin.com/in/" target="_blank" class="contact-card">
+              <div class="cc-icon">🔗</div>
+              <div class="cc-body">
+                <span class="cc-label">LinkedIn</span>
+                <span class="cc-val">Add your LinkedIn URL</span>
+              </div>
+              <span class="cc-arrow">→</span>
+            </a>
+          </div>
+        </div>
+        <div class="contact-right">
+          <form class="contact-form" id="contactForm">
+            <div class="field-row">
+              <div class="field">
+                <label>Name</label>
+                <input type="text" placeholder="Your name" required>
+              </div>
+              <div class="field">
+                <label>Email</label>
+                <input type="email" placeholder="your@email.com" required>
+              </div>
+            </div>
+            <div class="field">
+              <label>Subject</label>
+              <input type="text" placeholder="What's this about?">
+            </div>
+            <div class="field">
+              <label>Message</label>
+              <textarea rows="5" placeholder="Tell me about your project or opportunity…" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-glow" style="width:100%;justify-content:center;">
+              <span>Send Message</span>
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <span class="footer-logo">SR</span>
+        <p>Sombik Roy · POD Plugin Developer</p>
+      </div>
+      <div class="footer-links">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <p class="footer-copy">© 2026 Sombik Roy · Kolkata, India</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

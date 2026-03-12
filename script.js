@@ -1,55 +1,175 @@
-// Navbar shadow on scroll
-window.addEventListener('scroll', function () {
-  var navbar = document.getElementById('navbar');
-  if (window.scrollY > 10) {
-    navbar.style.boxShadow = '0 2px 20px rgba(12,26,40,0.1)';
-  } else {
-    navbar.style.boxShadow = 'none';
+// ── LOADER ──
+window.addEventListener('load', function () {
+  setTimeout(function () {
+    var loader = document.getElementById('loader');
+    if (loader) loader.classList.add('hidden');
+  }, 1600);
+});
+
+// ── CUSTOM CURSOR ──
+var cursor = document.getElementById('cursor');
+var follower = document.getElementById('cursorFollower');
+var mouseX = 0, mouseY = 0;
+var followerX = 0, followerY = 0;
+
+document.addEventListener('mousemove', function (e) {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  if (cursor) {
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
   }
 });
 
-// Active nav link highlight on scroll
-var sections = document.querySelectorAll('section[id], div[id]');
-var navLinks = document.querySelectorAll('.nav-links a');
+function animateFollower() {
+  followerX += (mouseX - followerX) * 0.1;
+  followerY += (mouseY - followerY) * 0.1;
+  if (follower) {
+    follower.style.left = followerX + 'px';
+    follower.style.top = followerY + 'px';
+  }
+  requestAnimationFrame(animateFollower);
+}
+animateFollower();
 
-window.addEventListener('scroll', function () {
-  var current = '';
-  sections.forEach(function (sec) {
-    if (window.scrollY >= sec.offsetTop - 80) {
-      current = sec.getAttribute('id');
-    }
+// Cursor hover effects
+document.querySelectorAll('a, button, .skill-card, .proj-card, .exp-card').forEach(function (el) {
+  el.addEventListener('mouseenter', function () {
+    if (cursor) cursor.style.transform = 'translate(-50%, -50%) scale(2)';
+    if (follower) { follower.style.width = '50px'; follower.style.height = '50px'; follower.style.opacity = '0.3'; }
   });
-  navLinks.forEach(function (link) {
-    link.style.color = '';
-    if (link.getAttribute('href') === '#' + current) {
-      link.style.color = '#0d8c7a';
-    }
+  el.addEventListener('mouseleave', function () {
+    if (cursor) cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+    if (follower) { follower.style.width = '32px'; follower.style.height = '32px'; follower.style.opacity = '0.6'; }
   });
 });
 
-// Smooth scroll for nav links
-navLinks.forEach(function (link) {
+// ── NAVBAR ──
+var navbar = document.getElementById('navbar');
+
+window.addEventListener('scroll', function () {
+  if (window.scrollY > 40) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+  updateActiveNav();
+});
+
+// ── ACTIVE NAV ──
+function updateActiveNav() {
+  var sections = document.querySelectorAll('section[id]');
+  var links = document.querySelectorAll('.nav-links a');
+  var scrollY = window.scrollY + 100;
+
+  sections.forEach(function (sec) {
+    if (scrollY >= sec.offsetTop && scrollY < sec.offsetTop + sec.offsetHeight) {
+      links.forEach(function (l) { l.classList.remove('active'); });
+      var active = document.querySelector('.nav-links a[href="#' + sec.id + '"]');
+      if (active) active.classList.add('active');
+    }
+  });
+}
+
+// ── SMOOTH SCROLL ──
+document.querySelectorAll('a[href^="#"]').forEach(function (link) {
   link.addEventListener('click', function (e) {
     var target = document.querySelector(link.getAttribute('href'));
     if (target) {
       e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth' });
+      var offset = 70;
+      var top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+      // Close mobile menu
+      document.getElementById('mobileMenu').classList.remove('open');
     }
   });
 });
 
-// Contact form submit
-var form = document.querySelector('.contact-form');
+// ── HAMBURGER ──
+var hamburger = document.getElementById('hamburger');
+var mobileMenu = document.getElementById('mobileMenu');
+
+if (hamburger) {
+  hamburger.addEventListener('click', function () {
+    mobileMenu.classList.toggle('open');
+  });
+}
+
+// ── SCROLL REVEAL ──
+var revealEls = document.querySelectorAll(
+  '.skill-card, .proj-card, .exp-card, .achieve-item, .contact-card, .info-card, .edu-showcase'
+);
+
+var revealObserver = new IntersectionObserver(function (entries) {
+  entries.forEach(function (entry) {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+revealEls.forEach(function (el) {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(24px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  revealObserver.observe(el);
+});
+
+// Stagger skill cards
+document.querySelectorAll('.skill-card').forEach(function (card, i) {
+  card.style.transitionDelay = (i % 3) * 0.1 + 's';
+});
+
+// ── CONTACT FORM ──
+var form = document.getElementById('contactForm');
 if (form) {
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var btn = form.querySelector('button[type="submit"]');
-    btn.textContent = 'Message Sent!';
+    var span = btn.querySelector('span');
+    if (span) span.textContent = 'Message Sent! ✓';
     btn.style.background = '#12b09a';
+    btn.disabled = true;
     setTimeout(function () {
-      btn.textContent = 'Send Message';
+      if (span) span.textContent = 'Send Message';
       btn.style.background = '';
+      btn.disabled = false;
       form.reset();
-    }, 3000);
+    }, 3500);
   });
+}
+
+// ── TYPING EFFECT on hero role ──
+var roleEl = document.querySelector('.hero-role');
+if (roleEl) {
+  var roles = ['POD Plugin Developer', 'SAP DM Specialist', 'JavaScript Developer', 'System Integrator'];
+  var roleIdx = 0;
+  var charIdx = 0;
+  var deleting = false;
+
+  function typeRole() {
+    var current = roles[roleIdx];
+    if (deleting) {
+      roleEl.textContent = current.substring(0, charIdx--);
+      if (charIdx < 0) {
+        deleting = false;
+        roleIdx = (roleIdx + 1) % roles.length;
+        charIdx = 0;
+        setTimeout(typeRole, 500);
+        return;
+      }
+    } else {
+      roleEl.textContent = current.substring(0, charIdx++);
+      if (charIdx > current.length) {
+        deleting = true;
+        setTimeout(typeRole, 2000);
+        return;
+      }
+    }
+    setTimeout(typeRole, deleting ? 50 : 80);
+  }
+
+  setTimeout(typeRole, 2000);
 }

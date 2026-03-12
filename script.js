@@ -1,11 +1,3 @@
-// ── LOADER ──
-window.addEventListener('load', function () {
-  setTimeout(function () {
-    var loader = document.getElementById('loader');
-    if (loader) loader.classList.add('hidden');
-  }, 1600);
-});
-
 // ── NAVBAR ──
 var navbar = document.getElementById('navbar');
 

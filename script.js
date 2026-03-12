@@ -6,44 +6,6 @@ window.addEventListener('load', function () {
   }, 1600);
 });
 
-// ── CUSTOM CURSOR ──
-var cursor = document.getElementById('cursor');
-var follower = document.getElementById('cursorFollower');
-var mouseX = 0, mouseY = 0;
-var followerX = 0, followerY = 0;
-
-document.addEventListener('mousemove', function (e) {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  if (cursor) {
-    cursor.style.left = mouseX + 'px';
-    cursor.style.top = mouseY + 'px';
-  }
-});
-
-function animateFollower() {
-  followerX += (mouseX - followerX) * 0.1;
-  followerY += (mouseY - followerY) * 0.1;
-  if (follower) {
-    follower.style.left = followerX + 'px';
-    follower.style.top = followerY + 'px';
-  }
-  requestAnimationFrame(animateFollower);
-}
-animateFollower();
-
-// Cursor hover effects
-document.querySelectorAll('a, button, .skill-card, .proj-card, .exp-card').forEach(function (el) {
-  el.addEventListener('mouseenter', function () {
-    if (cursor) cursor.style.transform = 'translate(-50%, -50%) scale(2)';
-    if (follower) { follower.style.width = '50px'; follower.style.height = '50px'; follower.style.opacity = '0.3'; }
-  });
-  el.addEventListener('mouseleave', function () {
-    if (cursor) cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-    if (follower) { follower.style.width = '32px'; follower.style.height = '32px'; follower.style.opacity = '0.6'; }
-  });
-});
-
 // ── NAVBAR ──
 var navbar = document.getElementById('navbar');
 

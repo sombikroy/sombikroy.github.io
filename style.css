@@ -1596,3 +1596,5 @@ body {
   .ai-chat-box { width: calc(100vw - 32px); right: 16px; bottom: 90px; }
   .ai-chat-btn { right: 20px; bottom: 24px; }
 }
+
+.active-exp { }

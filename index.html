@@ -26,7 +26,7 @@
       <a href="#contact" data-section="contact">Contact</a>
     </nav>
     <div class="nav-right">
-      <a href="mailto:sombikroy2000@gmail.com" class="nav-cta">Hire Me</a>
+      <a href="/cdn-cgi/l/email-protection#30435f5d52595b425f490200000070575d51595c1e535f5d" class="nav-cta">Hire Me</a>
       <button class="hamburger" id="hamburger">
         <span></span><span></span><span></span>
       </button>
@@ -122,7 +122,7 @@
             <div class="info-row"><span class="info-key">Name</span><span class="info-val">Sombik Roy</span></div>
             <div class="info-row"><span class="info-key">Location</span><span class="info-val">Kolkata, West Bengal</span></div>
             <div class="info-row"><span class="info-key">Phone</span><span class="info-val">+91 8583835893</span></div>
-            <div class="info-row"><span class="info-key">Email</span><span class="info-val"><a href="mailto:sombikroy2000@gmail.com" class="__cf_email__" data-cfemail="ed9e82808f84869f8294dfddddddad8a808c8481c38e8280">[email&#160;protected]</a></span></div>
+            <div class="info-row"><span class="info-key">Email</span><span class="info-val"><a href="/cdn-cgi/l/email-protection#790a16141b10120b16004b494949391e14181015571a1614" class="__cf_email__" data-cfemail="ed9e82808f84869f8294dfddddddad8a808c8481c38e8280">[email&#160;protected]</a></span></div>
             <div class="info-row"><span class="info-key">Degree</span><span class="info-val">B.Tech, IIT ISM Dhanbad</span></div>
             <div class="info-row last"><span class="info-key">Status</span><span class="info-val status-open">● Open to Work</span></div>
           </div>
@@ -464,11 +464,11 @@
         <div class="contact-left">
           <p class="contact-desc">Open to full-time roles, freelance SAP DM projects, and collaborations in plugin development and system integration. Let's build something great together.</p>
           <div class="contact-cards">
-            <a href="mailto:sombikroy2000@gmail.com" class="contact-card">
+            <a href="/cdn-cgi/l/email-protection#dcafb3b1beb5b7aeb3a5eeececec9cbbb1bdb5b0f2bfb3b1" class="contact-card">
               <div class="cc-icon">✉️</div>
               <div class="cc-body">
                 <span class="cc-label">Email</span>
-                <span class="cc-val">sombikroy2000@gmail.com</span>
+                <span class="cc-val"><span class="__cf_email__" data-cfemail="d2a1bdbfb0bbb9a0bdabe0e2e2e292b5bfb3bbbefcb1bdbf">[email&#160;protected]</span></span>
               </div>
               <span class="cc-arrow">→</span>
             </a>
@@ -537,7 +537,6 @@
       </div>
       <div class="footer-links">
         <a href="#about">About</a>
-        <a href="#skills">Skills</a>
         <a href="#experience">Experience</a>
         <a href="#contact">Contact</a>
       </div>
@@ -545,6 +544,42 @@
     </div>
   </footer>
 
+  <!-- AI CHAT WIDGET -->
+  <div class="ai-chat-btn" id="aiChatBtn" title="Ask AI about Sombik">
+    <svg id="chatOpenIcon" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <svg id="chatCloseIcon" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" style="display:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </div>
+
+  <div class="ai-chat-box" id="aiChatBox">
+    <div class="ai-chat-header">
+      <div class="ai-chat-header-left">
+        <div class="ai-avatar">SR</div>
+        <div>
+          <div class="ai-chat-title">Ask about Sombik</div>
+          <div class="ai-chat-sub">AI-powered assistant</div>
+        </div>
+      </div>
+      <button class="ai-chat-close" id="aiChatClose">✕</button>
+    </div>
+    <div class="ai-chat-messages" id="aiMessages">
+      <div class="ai-msg ai-msg-bot">
+        <div class="ai-msg-bubble">👋 Hi! I'm Sombik's AI assistant. Ask me anything about his skills, experience, projects, or how to get in touch!</div>
+      </div>
+    </div>
+    <div class="ai-chat-suggestions" id="aiSuggestions">
+      <button class="ai-suggestion" onclick="sendSuggestion('What are his SAP DM skills?')">SAP DM skills?</button>
+      <button class="ai-suggestion" onclick="sendSuggestion('Tell me about his experience')">Experience?</button>
+      <button class="ai-suggestion" onclick="sendSuggestion('How can I contact him?')">Contact?</button>
+    </div>
+    <div class="ai-chat-input-wrap">
+      <input type="text" class="ai-chat-input" id="aiChatInput" placeholder="Ask anything about Sombik…">
+      <button class="ai-send-btn" id="aiSendBtn">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>
+
   <script src="script.js"></script>
+  <script src="chat.js"></script>
 </body>
 </html>

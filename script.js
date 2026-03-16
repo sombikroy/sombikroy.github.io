@@ -1,3 +1,14 @@
+// ── EMAIL LINK FIX (bypass Cloudflare mangling) ──
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('[data-email]').forEach(function (el) {
+    var addr = el.getAttribute('data-email') + '@' + el.getAttribute('data-domain');
+    el.setAttribute('href', 'mailto:' + addr);
+    // Update visible text if it shows placeholder
+    var val = el.querySelector('.cc-val');
+    if (val) val.textContent = addr;
+  });
+});
+
 // ── NAVBAR ──
 var navbar = document.getElementById('navbar');
 

@@ -1,27 +1,19 @@
-// ── EMAIL INJECT (bypass Cloudflare mangling) ──
-// Email is never written in HTML — built at runtime so Cloudflare can't mangle it
+// EMAIL INJECT - bypass Cloudflare mangling
 document.addEventListener('DOMContentLoaded', function () {
   var u = 'sombikroy2000';
   var d = 'gmail.com';
   var addr = u + '@' + d;
-
-  // Fix all data-email href links (Hire Me + contact card)
   document.querySelectorAll('[data-email]').forEach(function (el) {
     el.setAttribute('href', 'mailto:' + addr);
   });
-
-  // Fill About section email text
   var aboutEmail = document.getElementById('aboutEmail');
   if (aboutEmail) aboutEmail.textContent = addr;
-
-  // Fill Contact card email text
   var contactEmailVal = document.getElementById('contactEmailVal');
   if (contactEmailVal) contactEmailVal.textContent = addr;
 });
 
-// ── NAVBAR ──
+// NAVBAR scroll effect
 var navbar = document.getElementById('navbar');
-
 window.addEventListener('scroll', function () {
   if (window.scrollY > 40) {
     navbar.classList.add('scrolled');
@@ -31,12 +23,11 @@ window.addEventListener('scroll', function () {
   updateActiveNav();
 });
 
-// ── ACTIVE NAV ──
+// Active nav highlight
 function updateActiveNav() {
   var sections = document.querySelectorAll('section[id]');
   var links = document.querySelectorAll('.nav-links a');
   var scrollY = window.scrollY + 100;
-
   sections.forEach(function (sec) {
     if (scrollY >= sec.offsetTop && scrollY < sec.offsetTop + sec.offsetHeight) {
       links.forEach(function (l) { l.classList.remove('active'); });
@@ -46,58 +37,69 @@ function updateActiveNav() {
   });
 }
 
-// ── SMOOTH SCROLL ──
+// Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(function (link) {
   link.addEventListener('click', function (e) {
-    var target = document.querySelector(link.getAttribute('href'));
+    var href = link.getAttribute('href');
+    if (href === '#' || href === '#email') return;
+    var target = document.querySelector(href);
     if (target) {
       e.preventDefault();
-      var offset = 70;
-      var top = target.getBoundingClientRect().top + window.scrollY - offset;
+      var top = target.getBoundingClientRect().top + window.scrollY - 70;
       window.scrollTo({ top: top, behavior: 'smooth' });
-      // Close mobile menu
       document.getElementById('mobileMenu').classList.remove('open');
     }
   });
 });
 
-// ── HAMBURGER ──
+// Hamburger menu
 var hamburger = document.getElementById('hamburger');
 var mobileMenu = document.getElementById('mobileMenu');
-
 if (hamburger) {
   hamburger.addEventListener('click', function () {
     mobileMenu.classList.toggle('open');
   });
 }
 
-// ── SCROLL REVEAL ──
-var revealEls = document.querySelectorAll(
-  '.skill-card, .proj-card, .exp-card, .achieve-item, .contact-card, .info-card, .edu-showcase'
-);
+// Scroll reveal - safe version that shows content if observer fails
+if ('IntersectionObserver' in window) {
+  var revealEls = document.querySelectorAll(
+    '.skill-card, .proj-card, .exp-card, .achieve-item, .contact-card, .info-card, .edu-showcase'
+  );
+  var revealObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
-var revealObserver = new IntersectionObserver(function (entries) {
-  entries.forEach(function (entry) {
-    if (entry.isIntersecting) {
-      entry.target.style.opacity = '1';
-      entry.target.style.transform = 'translateY(0)';
-    }
+  revealEls.forEach(function (el) {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+    revealObserver.observe(el);
   });
-}, { threshold: 0.1 });
 
-revealEls.forEach(function (el) {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(24px)';
-  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-  revealObserver.observe(el);
-});
+  document.querySelectorAll('.skill-card').forEach(function (card, i) {
+    card.style.transitionDelay = (i % 3) * 0.08 + 's';
+  });
 
-// Stagger skill cards
-document.querySelectorAll('.skill-card').forEach(function (card, i) {
-  card.style.transitionDelay = (i % 3) * 0.1 + 's';
-});
+  // Immediately show anything already in viewport
+  setTimeout(function () {
+    revealEls.forEach(function (el) {
+      var rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight) {
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      }
+    });
+  }, 100);
+}
 
-// ── CONTACT FORM ──
+// Contact form
 var form = document.getElementById('contactForm');
 if (form) {
   form.addEventListener('submit', function (e) {
@@ -116,14 +118,13 @@ if (form) {
   });
 }
 
-// ── TYPING EFFECT on hero role ──
+// Typing effect on hero role
 var roleEl = document.querySelector('.hero-role');
 if (roleEl) {
   var roles = ['POD Plugin Developer', 'SAP DM Specialist', 'JavaScript Developer', 'System Integrator'];
   var roleIdx = 0;
   var charIdx = 0;
   var deleting = false;
-
   function typeRole() {
     var current = roles[roleIdx];
     if (deleting) {
@@ -145,6 +146,5 @@ if (roleEl) {
     }
     setTimeout(typeRole, deleting ? 50 : 80);
   }
-
   setTimeout(typeRole, 2000);
 }

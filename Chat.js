@@ -1,59 +1,37 @@
-// ── AI CHAT WIDGET ──
+// AI CHAT WIDGET
 
-var SOMBIK_CONTEXT = `You are an AI assistant on Sombik Roy's personal portfolio website. Answer questions about Sombik concisely and professionally. Here is all the information about him:
+// Build context without email in plain text so Cloudflare cannot mangle it
+var emailAddr = 'sombikroy2000' + '@' + 'gmail.com';
 
-NAME: Sombik Roy
-ROLE: POD Plugin Developer
-LOCATION: Kolkata, West Bengal, India
-EMAIL: sombikroy2000@gmail.com
-PHONE: +91 8583835893
-GITHUB: github.com/sombikroy
+var SOMBIK_CONTEXT = 'You are an AI assistant on Sombik Roy portfolio website. Answer questions about Sombik concisely and professionally.\n\n'
+  + 'NAME: Sombik Roy\n'
+  + 'ROLE: POD Plugin Developer\n'
+  + 'LOCATION: Kolkata, West Bengal, India\n'
+  + 'EMAIL: ' + emailAddr + '\n'
+  + 'PHONE: +91 8583835893\n'
+  + 'GITHUB: github.com/sombikroy\n\n'
+  + 'EDUCATION:\n'
+  + '- B.Tech Electrical Engineering, IIT (ISM) Dhanbad (2019-2024)\n'
+  + '- Qualified JEE Mains and JEE Advanced in 2019\n\n'
+  + 'EXPERIENCE:\n'
+  + '1. Freelancing - POD Plugin Developer (Aug 2025 - Present, Part-Time)\n'
+  + '   - Designed and developed custom SAP DM POD plugins\n'
+  + '   - Implemented UI customizations using JavaScript and REST APIs\n'
+  + '   - Extended SAP DM features through plugin architecture and POD Designer\n'
+  + '   - Integrated manufacturing data with backend systems for real-time visibility\n'
+  + '   - Debugging, performance optimization, SAP BTP deployment support\n'
+  + '   - Collaborated with senior consultants on manufacturing workflow mapping\n'
+  + '2. Turing - Research Math Analyst (Oct 2024 - Dec 2024, Full-Time)\n'
+  + '   - Apple Research Project: LLM model evaluation and development\n'
+  + '   - Modified and contributed to developing large language models\n'
+  + '3. Digital Marveled - Sales and Marketing Intern (May 2022 - Aug 2022)\n'
+  + '   - Digital marketing, brand awareness, social media management\n\n'
+  + 'SKILLS: SAP DM, POD Plugin Development, POD Designer, SAP BTP, JavaScript, HTML5, CSS3, PHP, Python, REST APIs, MySQL, Git\n\n'
+  + 'PROJECTS: SAP DM POD Plugin, LLM Research (Apple/Turing), Manufacturing System Integration\n\n'
+  + 'ACHIEVEMENTS: JEE Advanced (2019), JEE Mains (2019), IIT ISM Graduate (2024), Apple LLM Research Contributor (2024)\n\n'
+  + 'Keep answers short (2-4 sentences). Be friendly and professional.';
 
-EDUCATION:
-- B.Tech in Electrical Engineering from IIT (ISM) Dhanbad (2019–2024)
-- Qualified JEE Mains and JEE Advanced in 2019
-
-EXPERIENCE:
-1. Freelancing – POD Plugin Developer (Aug 2025 – Present, Part-Time)
-   - Designed and developed custom SAP DM POD plugins to enhance Production Operator Dashboard functionality
-   - Implemented UI customizations using JavaScript and integrated backend services via REST APIs
-   - Extended standard SAP DM features through plugin architecture and POD Designer configurations
-   - Integrated manufacturing data with backend systems ensuring real-time data visibility
-   - Performed debugging, performance optimization, and deployment support in SAP BTP environment
-   - Collaborated with senior consultants on solution design and manufacturing workflow mapping
-
-2. Turing – Research Math Analyst (Oct 2024 – Dec 2024, Full-Time)
-   - Worked on Apple Research Project — LLM model evaluation and development
-   - Modified and contributed to developing large language models
-   - Utilized Turing University to develop LLM models
-
-3. Digital Marveled – Sales and Marketing Intern (May 2022 – Aug 2022, Internship)
-   - Worked on digital marketing via various social media
-   - Campaign Marketing, Brand Awareness, Social Media Management and Market Research
-
-SKILLS:
-- SAP Technologies: SAP Digital Manufacturing (SAP DM), POD Plugin Development, POD Designer, SAP BTP Integration
-- Programming: JavaScript, HTML5, CSS3, PHP, Python
-- Backend & APIs: REST APIs, JSON, MySQL, Database Optimization
-- Tools: Git, Postman, SAP BTP, VS Code
-- Core: MES, Plugin Architecture, System Integration, Performance Optimization, Debugging
-
-PROJECTS:
-1. Custom SAP DM POD Plugin – SAP DM, JavaScript, REST API, SAP BTP
-2. LLM Research – Apple Project – Python, LLM, Research
-3. Manufacturing System Integration – MySQL, REST API, SAP BTP, JSON
-
-ACHIEVEMENTS:
-- Qualified JEE Advanced (2019)
-- Qualified JEE Mains (2019)
-- B.Tech from IIT (ISM) Dhanbad (2024)
-- Apple LLM Research Contributor at Turing (2024)
-
-AVAILABILITY: Open to full-time roles and freelance SAP DM projects.
-
-Keep answers short (2-4 sentences max). Be friendly and professional. If asked something not related to Sombik, politely redirect to his profile.`;
-
-// Toggle chat
+// Chat toggle
 var chatBtn = document.getElementById('aiChatBtn');
 var chatBox = document.getElementById('aiChatBox');
 var chatClose = document.getElementById('aiChatClose');
@@ -73,17 +51,17 @@ function closeChat() {
   chatCloseIcon.style.display = 'none';
 }
 
-chatBtn.addEventListener('click', function () {
-  if (chatBox.classList.contains('open')) {
-    closeChat();
-  } else {
-    openChat();
-  }
-});
+if (chatBtn) {
+  chatBtn.addEventListener('click', function () {
+    chatBox.classList.contains('open') ? closeChat() : openChat();
+  });
+}
 
-chatClose.addEventListener('click', closeChat);
+if (chatClose) {
+  chatClose.addEventListener('click', closeChat);
+}
 
-// Send message
+// Messaging
 var messagesEl = document.getElementById('aiMessages');
 var inputEl = document.getElementById('aiChatInput');
 var sendBtn = document.getElementById('aiSendBtn');
@@ -99,7 +77,6 @@ function addMessage(text, isUser) {
   msg.appendChild(bubble);
   messagesEl.appendChild(msg);
   messagesEl.scrollTop = messagesEl.scrollHeight;
-  return bubble;
 }
 
 function addTyping() {
@@ -121,7 +98,7 @@ function hideSuggestions() {
 }
 
 async function sendMessage(text) {
-  if (!text.trim()) return;
+  if (!text || !text.trim()) return;
 
   hideSuggestions();
   addMessage(text, true);
@@ -134,7 +111,7 @@ async function sendMessage(text) {
   try {
     var response = await fetch('https://sombikroy17.sombikroy2000.workers.dev', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' }, // Worker adds API key securely
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 1000,
@@ -144,14 +121,14 @@ async function sendMessage(text) {
     });
 
     var data = await response.json();
-    // Show error details if API returned an error
     var reply;
+
     if (data.error) {
-      reply = 'API Error: ' + (data.error.message || JSON.stringify(data.error));
+      reply = 'Error: ' + (data.error.message || JSON.stringify(data.error));
     } else if (data.content && data.content[0]) {
       reply = data.content[0].text;
     } else {
-      reply = 'Unexpected response: ' + JSON.stringify(data).slice(0, 100);
+      reply = 'Unexpected response: ' + JSON.stringify(data).slice(0, 120);
     }
 
     removeTyping();
@@ -160,24 +137,28 @@ async function sendMessage(text) {
 
   } catch (err) {
     removeTyping();
-    addMessage('Error: ' + err.message, false);
+    addMessage('Connection error: ' + err.message, false);
   }
 
   sendBtn.disabled = false;
-  inputEl.focus();
+  if (inputEl) inputEl.focus();
 }
 
 function sendSuggestion(text) {
   sendMessage(text);
 }
 
-sendBtn.addEventListener('click', function () {
-  sendMessage(inputEl.value);
-});
-
-inputEl.addEventListener('keydown', function (e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
+if (sendBtn) {
+  sendBtn.addEventListener('click', function () {
     sendMessage(inputEl.value);
-  }
-});
+  });
+}
+
+if (inputEl) {
+  inputEl.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage(inputEl.value);
+    }
+  });
+}

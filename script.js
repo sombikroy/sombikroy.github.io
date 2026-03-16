@@ -1,12 +1,22 @@
-// ── EMAIL LINK FIX (bypass Cloudflare mangling) ──
+// ── EMAIL INJECT (bypass Cloudflare mangling) ──
+// Email is never written in HTML — built at runtime so Cloudflare can't mangle it
 document.addEventListener('DOMContentLoaded', function () {
+  var u = 'sombikroy2000';
+  var d = 'gmail.com';
+  var addr = u + '@' + d;
+
+  // Fix all data-email href links (Hire Me + contact card)
   document.querySelectorAll('[data-email]').forEach(function (el) {
-    var addr = el.getAttribute('data-email') + '@' + el.getAttribute('data-domain');
     el.setAttribute('href', 'mailto:' + addr);
-    // Update visible text if it shows placeholder
-    var val = el.querySelector('.cc-val');
-    if (val) val.textContent = addr;
   });
+
+  // Fill About section email text
+  var aboutEmail = document.getElementById('aboutEmail');
+  if (aboutEmail) aboutEmail.textContent = addr;
+
+  // Fill Contact card email text
+  var contactEmailVal = document.getElementById('contactEmailVal');
+  if (contactEmailVal) contactEmailVal.textContent = addr;
 });
 
 // ── NAVBAR ──

@@ -132,7 +132,7 @@ async function sendMessage(text) {
   conversationHistory.push({ role: 'user', content: text });
 
   try {
-    var response = await fetch('https://sombikroy17.sombikroy2000.workers.dev/', {
+    var response = await fetch('https://sombikroy17.sombikroy2000.workers.dev', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' }, // Worker adds API key securely
       body: JSON.stringify({
@@ -144,7 +144,15 @@ async function sendMessage(text) {
     });
 
     var data = await response.json();
-    var reply = data.content && data.content[0] ? data.content[0].text : "I'm having trouble connecting right now. Please reach out to Sombik directly at sombikroy2000@gmail.com!";
+    // Show error details if API returned an error
+    var reply;
+    if (data.error) {
+      reply = 'API Error: ' + (data.error.message || JSON.stringify(data.error));
+    } else if (data.content && data.content[0]) {
+      reply = data.content[0].text;
+    } else {
+      reply = 'Unexpected response: ' + JSON.stringify(data).slice(0, 100);
+    }
 
     removeTyping();
     addMessage(reply, false);
@@ -152,7 +160,7 @@ async function sendMessage(text) {
 
   } catch (err) {
     removeTyping();
-    addMessage("Sorry, I'm unable to connect right now. Please contact Sombik directly at sombikroy2000@gmail.com!", false);
+    addMessage('Error: ' + err.message, false);
   }
 
   sendBtn.disabled = false;

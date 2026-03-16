@@ -132,9 +132,9 @@ async function sendMessage(text) {
   conversationHistory.push({ role: 'user', content: text });
 
   try {
-    var response = await fetch('https://api.anthropic.com/v1/messages', {
+    var response = await fetch('https://sombikroy17.sombikroy2000.workers.dev/', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' }, // Worker adds API key securely
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,

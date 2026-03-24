@@ -1,184 +1,129 @@
-/**
- * Optimized script.js for sombikroy.github.io
- * Improvements: ES6+ syntax, robust scroll logic, and improved observers.
- */
+// EMAIL INJECT - built at runtime so Cloudflare cannot mangle it
+document.addEventListener('DOMContentLoaded', function () {
+  var u = 'sombikroy2000';
+  var d = 'gmail.com';
+  var addr = u + '@' + d;
 
-document.addEventListener('DOMContentLoaded', () => {
-    // --- EMAIL INJECTION ---
-    // Bypasses Cloudflare email obfuscation safely
-    const injectEmail = () => {
-        const u = 'sombikroy2000';
-        const d = 'gmail.com';
-        const addr = `${u}@${d}`;
-        
-        document.querySelectorAll('[data-email]').forEach(el => {
-            el.setAttribute('href', `mailto:${addr}`);
-        });
+  var hireBtn = document.getElementById('hireBtn');
+  if (hireBtn) hireBtn.href = 'mailto:' + addr;
 
-        const emailElements = ['aboutEmail', 'contactEmailVal'];
-        emailElements.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.textContent = addr;
-        });
-    };
+  var emailCard = document.getElementById('emailCard');
+  if (emailCard) emailCard.href = 'mailto:' + addr;
 
-    // --- NAVBAR & ACTIVE LINK LOGIC ---
-    const navbar = document.getElementById('navbar');
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-links a');
+  var aboutEmail = document.getElementById('aboutEmail');
+  if (aboutEmail) aboutEmail.textContent = addr;
 
-    const handleScroll = () => {
-        // Sticky Navbar Effect
-        if (window.scrollY > 40) {
-            navbar?.classList.add('scrolled');
-        } else {
-            navbar?.classList.remove('scrolled');
-        }
-
-        // Active Link Highlighting
-        let currentSectionId = "";
-        const scrollPosition = window.scrollY + 120; // Offset for better trigger timing
-
-        sections.forEach(sec => {
-            if (scrollPosition >= sec.offsetTop && scrollPosition < sec.offsetTop + sec.offsetHeight) {
-                currentSectionId = sec.getAttribute('id');
-            }
-        });
-
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${currentSectionId}`) {
-                link.classList.add('active');
-            }
-        });
-    };
-
-    // --- SMOOTH SCROLLING ---
-    const setupSmoothScroll = () => {
-        document.querySelectorAll('a[href^="#"]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                const href = link.getAttribute('href');
-                if (href === '#' || href === '#email') return;
-
-                const target = document.querySelector(href);
-                if (target) {
-                    e.preventDefault();
-                    // Using offsetTop is more reliable than getBoundingClientRect during active scrolls
-                    const targetPosition = target.offsetTop - 70; 
-                    
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-
-                    // Close mobile menu if open
-                    document.getElementById('mobileMenu')?.classList.remove('open');
-                }
-            });
-        });
-    };
-
-    // --- SCROLL REVEAL (Intersection Observer) ---
-    const setupReveal = () => {
-        if (!('IntersectionObserver' in window)) return;
-
-        const revealOptions = {
-            threshold: 0.05, // Lowered for better mobile compatibility
-            rootMargin: '0px 0px -40px 0px'
-        };
-
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                    revealObserver.unobserve(entry.target);
-                }
-            });
-        }, revealOptions);
-
-        const revealEls = document.querySelectorAll('.skill-card, .proj-card, .exp-card, .achieve-item, .contact-card, .info-card, .edu-showcase');
-        
-        revealEls.forEach((el, i) => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
-            
-            // Staggered delay for skill cards
-            if (el.classList.contains('skill-card')) {
-                el.style.transitionDelay = `${(i % 3) * 0.08}s`;
-            }
-            
-            revealObserver.observe(el);
-        });
-    };
-
-    // --- TYPING EFFECT ---
-    const setupTypingEffect = () => {
-        const roleEl = document.querySelector('.hero-role');
-        const roles = ['POD Plugin Developer', 'SAP DM Specialist', 'JavaScript Developer', 'System Integrator'];
-        
-        if (!roleEl || roles.length === 0) return;
-
-        let roleIdx = 0;
-        let charIdx = 0;
-        let isDeleting = false;
-
-        const type = () => {
-            const currentRole = roles[roleIdx];
-            
-            if (isDeleting) {
-                roleEl.textContent = currentRole.substring(0, charIdx--);
-                if (charIdx < 0) {
-                    isDeleting = false;
-                    roleIdx = (roleIdx + 1) % roles.length;
-                    charIdx = 0;
-                    setTimeout(type, 500);
-                    return;
-                }
-            } else {
-                roleEl.textContent = currentRole.substring(0, charIdx++);
-                if (charIdx > currentRole.length) {
-                    isDeleting = true;
-                    setTimeout(type, 2000);
-                    return;
-                }
-            }
-            setTimeout(type, isDeleting ? 50 : 80);
-        };
-
-        setTimeout(type, 1500);
-    };
-
-    // --- INITIALIZE ALL ---
-    injectEmail();
-    setupSmoothScroll();
-    setupReveal();
-    setupTypingEffect();
-    window.addEventListener('scroll', handleScroll);
-
-    // Mobile Menu Toggle
-    const hamburger = document.getElementById('hamburger');
-    hamburger?.addEventListener('click', () => {
-        document.getElementById('mobileMenu')?.classList.toggle('open');
-    });
-
-    // Form Handling
-    const form = document.getElementById('contactForm');
-    form?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const btn = form.querySelector('button[type="submit"]');
-        const span = btn?.querySelector('span');
-        
-        if (span) span.textContent = 'Message Sent! ✓';
-        btn.style.background = '#12b09a';
-        btn.disabled = true;
-
-        setTimeout(() => {
-            if (span) span.textContent = 'Send Message';
-            btn.style.background = '';
-            btn.disabled = false;
-            form.reset();
-        }, 3500);
-    });
+  var contactEmailVal = document.getElementById('contactEmailVal');
+  if (contactEmailVal) contactEmailVal.textContent = addr;
 });
+
+// NAVBAR scroll effect
+var navbar = document.getElementById('navbar');
+window.addEventListener('scroll', function () {
+  navbar.classList.toggle('scrolled', window.scrollY > 40);
+  updateActiveNav();
+});
+
+// Active nav highlight
+function updateActiveNav() {
+  var scrollY = window.scrollY + 100;
+  document.querySelectorAll('section[id]').forEach(function (sec) {
+    if (scrollY >= sec.offsetTop && scrollY < sec.offsetTop + sec.offsetHeight) {
+      document.querySelectorAll('.nav-links a').forEach(function (l) { l.classList.remove('active'); });
+      var a = document.querySelector('.nav-links a[href="#' + sec.id + '"]');
+      if (a) a.classList.add('active');
+    }
+  });
+}
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+  link.addEventListener('click', function (e) {
+    var href = link.getAttribute('href');
+    if (!href || href.length < 2) return;
+    var target = document.querySelector(href);
+    if (target) {
+      e.preventDefault();
+      window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 70, behavior: 'smooth' });
+      document.getElementById('mobileMenu').classList.remove('open');
+    }
+  });
+});
+
+// Hamburger
+var hamburger = document.getElementById('hamburger');
+var mobileMenu = document.getElementById('mobileMenu');
+if (hamburger) {
+  hamburger.addEventListener('click', function () {
+    mobileMenu.classList.toggle('open');
+  });
+}
+
+// Scroll reveal
+if ('IntersectionObserver' in window) {
+  var els = document.querySelectorAll('.skill-card, .proj-card, .exp-card, .achieve-item, .contact-card, .info-card, .edu-showcase');
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  els.forEach(function (el, i) {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.55s ease ' + (i % 3) * 0.08 + 's, transform 0.55s ease ' + (i % 3) * 0.08 + 's';
+    obs.observe(el);
+  });
+
+  // Show elements already in viewport immediately
+  setTimeout(function () {
+    els.forEach(function (el) {
+      if (el.getBoundingClientRect().top < window.innerHeight) {
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      }
+    });
+  }, 100);
+}
+
+// Contact form
+var form = document.getElementById('contactForm');
+if (form) {
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var btn = form.querySelector('button[type="submit"]');
+    var span = btn.querySelector('span');
+    if (span) span.textContent = 'Message Sent!';
+    btn.style.background = '#12b09a';
+    btn.disabled = true;
+    setTimeout(function () {
+      if (span) span.textContent = 'Send Message';
+      btn.style.background = '';
+      btn.disabled = false;
+      form.reset();
+    }, 3000);
+  });
+}
+
+// Typing effect
+var roleEl = document.querySelector('.hero-role');
+if (roleEl) {
+  var roles = ['POD Plugin Developer', 'SAP DM Specialist', 'JavaScript Developer', 'System Integrator'];
+  var ri = 0, ci = 0, del = false;
+  function type() {
+    var cur = roles[ri];
+    if (del) {
+      roleEl.textContent = cur.substring(0, ci--);
+      if (ci < 0) { del = false; ri = (ri + 1) % roles.length; ci = 0; setTimeout(type, 500); return; }
+    } else {
+      roleEl.textContent = cur.substring(0, ci++);
+      if (ci > cur.length) { del = true; setTimeout(type, 2000); return; }
+    }
+    setTimeout(type, del ? 50 : 80);
+  }
+  setTimeout(type, 2000);
+}

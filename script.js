@@ -1,150 +1,184 @@
-// EMAIL INJECT - bypass Cloudflare mangling
-document.addEventListener('DOMContentLoaded', function () {
-  var u = 'sombikroy2000';
-  var d = 'gmail.com';
-  var addr = u + '@' + d;
-  document.querySelectorAll('[data-email]').forEach(function (el) {
-    el.setAttribute('href', 'mailto:' + addr);
-  });
-  var aboutEmail = document.getElementById('aboutEmail');
-  if (aboutEmail) aboutEmail.textContent = addr;
-  var contactEmailVal = document.getElementById('contactEmailVal');
-  if (contactEmailVal) contactEmailVal.textContent = addr;
-});
+/**
+ * Optimized script.js for sombikroy.github.io
+ * Improvements: ES6+ syntax, robust scroll logic, and improved observers.
+ */
 
-// NAVBAR scroll effect
-var navbar = document.getElementById('navbar');
-window.addEventListener('scroll', function () {
-  if (window.scrollY > 40) {
-    navbar.classList.add('scrolled');
-  } else {
-    navbar.classList.remove('scrolled');
-  }
-  updateActiveNav();
-});
+document.addEventListener('DOMContentLoaded', () => {
+    // --- EMAIL INJECTION ---
+    // Bypasses Cloudflare email obfuscation safely
+    const injectEmail = () => {
+        const u = 'sombikroy2000';
+        const d = 'gmail.com';
+        const addr = `${u}@${d}`;
+        
+        document.querySelectorAll('[data-email]').forEach(el => {
+            el.setAttribute('href', `mailto:${addr}`);
+        });
 
-// Active nav highlight
-function updateActiveNav() {
-  var sections = document.querySelectorAll('section[id]');
-  var links = document.querySelectorAll('.nav-links a');
-  var scrollY = window.scrollY + 100;
-  sections.forEach(function (sec) {
-    if (scrollY >= sec.offsetTop && scrollY < sec.offsetTop + sec.offsetHeight) {
-      links.forEach(function (l) { l.classList.remove('active'); });
-      var active = document.querySelector('.nav-links a[href="#' + sec.id + '"]');
-      if (active) active.classList.add('active');
-    }
-  });
-}
+        const emailElements = ['aboutEmail', 'contactEmailVal'];
+        emailElements.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = addr;
+        });
+    };
 
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(function (link) {
-  link.addEventListener('click', function (e) {
-    var href = link.getAttribute('href');
-    if (href === '#' || href === '#email') return;
-    var target = document.querySelector(href);
-    if (target) {
-      e.preventDefault();
-      var top = target.getBoundingClientRect().top + window.scrollY - 70;
-      window.scrollTo({ top: top, behavior: 'smooth' });
-      document.getElementById('mobileMenu').classList.remove('open');
-    }
-  });
-});
+    // --- NAVBAR & ACTIVE LINK LOGIC ---
+    const navbar = document.getElementById('navbar');
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
 
-// Hamburger menu
-var hamburger = document.getElementById('hamburger');
-var mobileMenu = document.getElementById('mobileMenu');
-if (hamburger) {
-  hamburger.addEventListener('click', function () {
-    mobileMenu.classList.toggle('open');
-  });
-}
+    const handleScroll = () => {
+        // Sticky Navbar Effect
+        if (window.scrollY > 40) {
+            navbar?.classList.add('scrolled');
+        } else {
+            navbar?.classList.remove('scrolled');
+        }
 
-// Scroll reveal - safe version that shows content if observer fails
-if ('IntersectionObserver' in window) {
-  var revealEls = document.querySelectorAll(
-    '.skill-card, .proj-card, .exp-card, .achieve-item, .contact-card, .info-card, .edu-showcase'
-  );
-  var revealObserver = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-        revealObserver.unobserve(entry.target);
-      }
+        // Active Link Highlighting
+        let currentSectionId = "";
+        const scrollPosition = window.scrollY + 120; // Offset for better trigger timing
+
+        sections.forEach(sec => {
+            if (scrollPosition >= sec.offsetTop && scrollPosition < sec.offsetTop + sec.offsetHeight) {
+                currentSectionId = sec.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${currentSectionId}`) {
+                link.classList.add('active');
+            }
+        });
+    };
+
+    // --- SMOOTH SCROLLING ---
+    const setupSmoothScroll = () => {
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href === '#' || href === '#email') return;
+
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    // Using offsetTop is more reliable than getBoundingClientRect during active scrolls
+                    const targetPosition = target.offsetTop - 70; 
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    // Close mobile menu if open
+                    document.getElementById('mobileMenu')?.classList.remove('open');
+                }
+            });
+        });
+    };
+
+    // --- SCROLL REVEAL (Intersection Observer) ---
+    const setupReveal = () => {
+        if (!('IntersectionObserver' in window)) return;
+
+        const revealOptions = {
+            threshold: 0.05, // Lowered for better mobile compatibility
+            rootMargin: '0px 0px -40px 0px'
+        };
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, revealOptions);
+
+        const revealEls = document.querySelectorAll('.skill-card, .proj-card, .exp-card, .achieve-item, .contact-card, .info-card, .edu-showcase');
+        
+        revealEls.forEach((el, i) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+            
+            // Staggered delay for skill cards
+            if (el.classList.contains('skill-card')) {
+                el.style.transitionDelay = `${(i % 3) * 0.08}s`;
+            }
+            
+            revealObserver.observe(el);
+        });
+    };
+
+    // --- TYPING EFFECT ---
+    const setupTypingEffect = () => {
+        const roleEl = document.querySelector('.hero-role');
+        const roles = ['POD Plugin Developer', 'SAP DM Specialist', 'JavaScript Developer', 'System Integrator'];
+        
+        if (!roleEl || roles.length === 0) return;
+
+        let roleIdx = 0;
+        let charIdx = 0;
+        let isDeleting = false;
+
+        const type = () => {
+            const currentRole = roles[roleIdx];
+            
+            if (isDeleting) {
+                roleEl.textContent = currentRole.substring(0, charIdx--);
+                if (charIdx < 0) {
+                    isDeleting = false;
+                    roleIdx = (roleIdx + 1) % roles.length;
+                    charIdx = 0;
+                    setTimeout(type, 500);
+                    return;
+                }
+            } else {
+                roleEl.textContent = currentRole.substring(0, charIdx++);
+                if (charIdx > currentRole.length) {
+                    isDeleting = true;
+                    setTimeout(type, 2000);
+                    return;
+                }
+            }
+            setTimeout(type, isDeleting ? 50 : 80);
+        };
+
+        setTimeout(type, 1500);
+    };
+
+    // --- INITIALIZE ALL ---
+    injectEmail();
+    setupSmoothScroll();
+    setupReveal();
+    setupTypingEffect();
+    window.addEventListener('scroll', handleScroll);
+
+    // Mobile Menu Toggle
+    const hamburger = document.getElementById('hamburger');
+    hamburger?.addEventListener('click', () => {
+        document.getElementById('mobileMenu')?.classList.toggle('open');
     });
-  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
-  revealEls.forEach(function (el) {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
-    revealObserver.observe(el);
-  });
+    // Form Handling
+    const form = document.getElementById('contactForm');
+    form?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('button[type="submit"]');
+        const span = btn?.querySelector('span');
+        
+        if (span) span.textContent = 'Message Sent! ✓';
+        btn.style.background = '#12b09a';
+        btn.disabled = true;
 
-  document.querySelectorAll('.skill-card').forEach(function (card, i) {
-    card.style.transitionDelay = (i % 3) * 0.08 + 's';
-  });
-
-  // Immediately show anything already in viewport
-  setTimeout(function () {
-    revealEls.forEach(function (el) {
-      var rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight) {
-        el.style.opacity = '1';
-        el.style.transform = 'translateY(0)';
-      }
+        setTimeout(() => {
+            if (span) span.textContent = 'Send Message';
+            btn.style.background = '';
+            btn.disabled = false;
+            form.reset();
+        }, 3500);
     });
-  }, 100);
-}
-
-// Contact form
-var form = document.getElementById('contactForm');
-if (form) {
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var btn = form.querySelector('button[type="submit"]');
-    var span = btn.querySelector('span');
-    if (span) span.textContent = 'Message Sent! ✓';
-    btn.style.background = '#12b09a';
-    btn.disabled = true;
-    setTimeout(function () {
-      if (span) span.textContent = 'Send Message';
-      btn.style.background = '';
-      btn.disabled = false;
-      form.reset();
-    }, 3500);
-  });
-}
-
-// Typing effect on hero role
-var roleEl = document.querySelector('.hero-role');
-if (roleEl) {
-  var roles = ['POD Plugin Developer', 'SAP DM Specialist', 'JavaScript Developer', 'System Integrator'];
-  var roleIdx = 0;
-  var charIdx = 0;
-  var deleting = false;
-  function typeRole() {
-    var current = roles[roleIdx];
-    if (deleting) {
-      roleEl.textContent = current.substring(0, charIdx--);
-      if (charIdx < 0) {
-        deleting = false;
-        roleIdx = (roleIdx + 1) % roles.length;
-        charIdx = 0;
-        setTimeout(typeRole, 500);
-        return;
-      }
-    } else {
-      roleEl.textContent = current.substring(0, charIdx++);
-      if (charIdx > current.length) {
-        deleting = true;
-        setTimeout(typeRole, 2000);
-        return;
-      }
-    }
-    setTimeout(typeRole, deleting ? 50 : 80);
-  }
-  setTimeout(typeRole, 2000);
-}
+});

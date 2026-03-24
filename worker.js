@@ -1,36 +1,48 @@
+// Cloudflare Worker - Anthropic API Proxy
+// Deploy at: workers.cloudflare.com
+
 export default {
   async fetch(request, env) {
-    // Handle CORS (so your website can talk to this worker)
-    const corsHeaders = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
+    const cors = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
     };
 
-    if (request.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
+    if (request.method !== 'POST') return new Response('Method not allowed', { status: 405, headers: cors });
 
-    if (request.method === "POST") {
-      const { message } = await request.json();
-
-      // System prompt to give the AI context about you
-      const systemPrompt = "You are an AI assistant for Sombik Roy, a POD Plugin Developer and SAP DM Specialist. Answer professionally about his skills in JavaScript, Java, and System Integration.";
-
-      try {
-        const response = await env.AI.run('@cf/meta/llama-3-8b-instruct', {
-          messages: [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: message }
-          ]
-        });
-
-        return new Response(JSON.stringify({ response: response.response }), {
-          headers: { ...corsHeaders, "Content-Type": "application/json" }
-        });
-      } catch (e) {
-        return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: corsHeaders });
-      }
+    if (!env.ANTHROPIC_API_KEY) {
+      return new Response(JSON.stringify({ error: { message: 'ANTHROPIC_API_KEY secret not set in Worker' } }), {
+        status: 500, headers: { 'Content-Type': 'application/json', ...cors }
+      });
     }
 
-    return new Response("Send a POST request", { status: 400 });
+    try {
+      const body = await request.json();
+      const resp = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': env.ANTHROPIC_API_KEY,
+          'anthropic-version': '2023-06-01',
+        },
+        body: JSON.stringify({
+          model: body.model || 'claude-haiku-4-5-20251001',
+          max_tokens: body.max_tokens || 1000,
+          system: body.system,
+          messages: body.messages,
+        }),
+      });
+      const data = await resp.json();
+      return new Response(JSON.stringify(data), {
+        status: resp.status,
+        headers: { 'Content-Type': 'application/json', ...cors }
+      });
+    } catch (err) {
+      return new Response(JSON.stringify({ error: { message: err.message } }), {
+        status: 500, headers: { 'Content-Type': 'application/json', ...cors }
+      });
+    }
   }
 };

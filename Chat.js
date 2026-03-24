@@ -1,164 +1,89 @@
-// AI CHAT WIDGET
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('ai-chat-container');
+    if (!container) return;
 
-// Build context without email in plain text so Cloudflare cannot mangle it
-var emailAddr = 'sombikroy2000' + '@' + 'gmail.com';
+    // Inject Styles directly into the head
+    const style = document.createElement('style');
+    style.textContent = `
+        .chat-toggle { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; border-radius: 50%; background: #0078ff; color: white; border: none; cursor: pointer; z-index: 1000; font-size: 28px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: transform 0.3s; }
+        .chat-toggle:hover { transform: scale(1.1); }
+        .chat-box { position: fixed; bottom: 95px; right: 20px; width: 330px; height: 480px; background: #fff; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: none; flex-direction: column; z-index: 1000; overflow: hidden; border: 1px solid rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; }
+        .chat-box.active { display: flex; animation: fadeIn 0.3s ease; }
+        .chat-header { background: #0078ff; color: white; padding: 15px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+        .chat-logs { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #f9f9f9; }
+        .msg { padding: 10px 14px; border-radius: 18px; max-width: 85%; line-height: 1.4; font-size: 14px; word-wrap: break-word; }
+        .msg.user { align-self: flex-end; background: #0078ff; color: white; border-bottom-right-radius: 2px; }
+        .msg.ai { align-self: flex-start; background: #e4e6eb; color: #1c1e21; border-bottom-left-radius: 2px; }
+        .chat-input { display: flex; padding: 12px; background: white; border-top: 1px solid #eee; }
+        .chat-input input { flex: 1; border: 1px solid #ddd; padding: 10px; border-radius: 20px; outline: none; font-size: 14px; }
+        .chat-input button { margin-left: 8px; background: #0078ff; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    `;
+    document.head.appendChild(style);
 
-var SOMBIK_CONTEXT = 'You are an AI assistant on Sombik Roy portfolio website. Answer questions about Sombik concisely and professionally.\n\n'
-  + 'NAME: Sombik Roy\n'
-  + 'ROLE: POD Plugin Developer\n'
-  + 'LOCATION: Kolkata, West Bengal, India\n'
-  + 'EMAIL: ' + emailAddr + '\n'
-  + 'PHONE: +91 8583835893\n'
-  + 'GITHUB: github.com/sombikroy\n\n'
-  + 'EDUCATION:\n'
-  + '- B.Tech Electrical Engineering, IIT (ISM) Dhanbad (2019-2024)\n'
-  + '- Qualified JEE Mains and JEE Advanced in 2019\n\n'
-  + 'EXPERIENCE:\n'
-  + '1. Freelancing - POD Plugin Developer (Aug 2025 - Present, Part-Time)\n'
-  + '   - Designed and developed custom SAP DM POD plugins\n'
-  + '   - Implemented UI customizations using JavaScript and REST APIs\n'
-  + '   - Extended SAP DM features through plugin architecture and POD Designer\n'
-  + '   - Integrated manufacturing data with backend systems for real-time visibility\n'
-  + '   - Debugging, performance optimization, SAP BTP deployment support\n'
-  + '   - Collaborated with senior consultants on manufacturing workflow mapping\n'
-  + '2. Turing - Research Math Analyst (Oct 2024 - Dec 2024, Full-Time)\n'
-  + '   - Apple Research Project: LLM model evaluation and development\n'
-  + '   - Modified and contributed to developing large language models\n'
-  + '3. Digital Marveled - Sales and Marketing Intern (May 2022 - Aug 2022)\n'
-  + '   - Digital marketing, brand awareness, social media management\n\n'
-  + 'SKILLS: SAP DM, POD Plugin Development, POD Designer, SAP BTP, JavaScript, HTML5, CSS3, PHP, Python, REST APIs, MySQL, Git\n\n'
-  + 'PROJECTS: SAP DM POD Plugin, LLM Research (Apple/Turing), Manufacturing System Integration\n\n'
-  + 'ACHIEVEMENTS: JEE Advanced (2019), JEE Mains (2019), IIT ISM Graduate (2024), Apple LLM Research Contributor (2024)\n\n'
-  + 'Keep answers short (2-4 sentences). Be friendly and professional.';
+    // Build HTML Structure
+    container.innerHTML = `
+        <button class="chat-toggle" title="Chat with AI">🤖</button>
+        <div class="chat-box">
+            <div class="chat-header">
+                <span>Sombik's AI Assistant</span>
+                <span style="cursor:pointer" onclick="document.querySelector('.chat-box').classList.remove('active')">✕</span>
+            </div>
+            <div class="chat-logs" id="chatLogs">
+                <div class="msg ai">Hi! I'm Sombik's virtual assistant. How can I help you today?</div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="Ask me anything...">
+                <button id="sendBtn">➤</button>
+            </div>
+        </div>
+    `;
 
-// Chat toggle
-var chatBtn = document.getElementById('aiChatBtn');
-var chatBox = document.getElementById('aiChatBox');
-var chatClose = document.getElementById('aiChatClose');
-var chatOpenIcon = document.getElementById('chatOpenIcon');
-var chatCloseIcon = document.getElementById('chatCloseIcon');
+    const chatBox = container.querySelector('.chat-box');
+    const toggle = container.querySelector('.chat-toggle');
+    const input = document.getElementById('chatInput');
+    const logs = document.getElementById('chatLogs');
+    const sendBtn = document.getElementById('sendBtn');
 
-function openChat() {
-  chatBox.classList.add('open');
-  chatOpenIcon.style.display = 'none';
-  chatCloseIcon.style.display = 'block';
-  document.getElementById('aiChatInput').focus();
-}
+    toggle.onclick = () => chatBox.classList.toggle('active');
 
-function closeChat() {
-  chatBox.classList.remove('open');
-  chatOpenIcon.style.display = 'block';
-  chatCloseIcon.style.display = 'none';
-}
+    const addMessage = (text, sender) => {
+        const div = document.createElement('div');
+        div.className = `msg ${sender}`;
+        div.textContent = text;
+        logs.appendChild(div);
+        logs.scrollTop = logs.scrollHeight;
+    };
 
-if (chatBtn) {
-  chatBtn.addEventListener('click', function () {
-    chatBox.classList.contains('open') ? closeChat() : openChat();
-  });
-}
+    const handleSend = async () => {
+        const message = input.value.trim();
+        if (!message) return;
 
-if (chatClose) {
-  chatClose.addEventListener('click', closeChat);
-}
+        addMessage(message, 'user');
+        input.value = '';
 
-// Messaging
-var messagesEl = document.getElementById('aiMessages');
-var inputEl = document.getElementById('aiChatInput');
-var sendBtn = document.getElementById('aiSendBtn');
-var suggestionsEl = document.getElementById('aiSuggestions');
-var conversationHistory = [];
+        // Typing indicator
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'msg ai';
+        typingDiv.textContent = '...';
+        logs.appendChild(typingDiv);
 
-function addMessage(text, isUser) {
-  var msg = document.createElement('div');
-  msg.className = 'ai-msg ' + (isUser ? 'ai-msg-user' : 'ai-msg-bot');
-  var bubble = document.createElement('div');
-  bubble.className = 'ai-msg-bubble';
-  bubble.textContent = text;
-  msg.appendChild(bubble);
-  messagesEl.appendChild(msg);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
-}
+        try {
+            const response = await fetch('https://sombikroy17.sombikroy2000.workers.dev/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message })
+            });
+            
+            const data = await response.json();
+            logs.removeChild(typingDiv); // Remove typing dots
+            addMessage(data.response || "I'm having trouble thinking right now.", 'ai');
+        } catch (err) {
+            logs.removeChild(typingDiv);
+            addMessage("I couldn't connect to my brain. Please check your internet or the Worker deployment.", 'ai');
+        }
+    };
 
-function addTyping() {
-  var msg = document.createElement('div');
-  msg.className = 'ai-msg ai-msg-bot';
-  msg.id = 'typingIndicator';
-  msg.innerHTML = '<div class="ai-typing"><span></span><span></span><span></span></div>';
-  messagesEl.appendChild(msg);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
-}
-
-function removeTyping() {
-  var t = document.getElementById('typingIndicator');
-  if (t) t.remove();
-}
-
-function hideSuggestions() {
-  if (suggestionsEl) suggestionsEl.style.display = 'none';
-}
-
-async function sendMessage(text) {
-  if (!text || !text.trim()) return;
-
-  hideSuggestions();
-  addMessage(text, true);
-  inputEl.value = '';
-  sendBtn.disabled = true;
-  addTyping();
-
-  conversationHistory.push({ role: 'user', content: text });
-
-  try {
-    var response = await fetch('https://sombikroy17.sombikroy2000.workers.dev', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 1000,
-        system: SOMBIK_CONTEXT,
-        messages: conversationHistory
-      })
-    });
-
-    var data = await response.json();
-    var reply;
-
-    if (data.error) {
-      reply = 'Error: ' + (data.error.message || JSON.stringify(data.error));
-    } else if (data.content && data.content[0]) {
-      reply = data.content[0].text;
-    } else {
-      reply = 'Unexpected response: ' + JSON.stringify(data).slice(0, 120);
-    }
-
-    removeTyping();
-    addMessage(reply, false);
-    conversationHistory.push({ role: 'assistant', content: reply });
-
-  } catch (err) {
-    removeTyping();
-    addMessage('Connection error: ' + err.message, false);
-  }
-
-  sendBtn.disabled = false;
-  if (inputEl) inputEl.focus();
-}
-
-function sendSuggestion(text) {
-  sendMessage(text);
-}
-
-if (sendBtn) {
-  sendBtn.addEventListener('click', function () {
-    sendMessage(inputEl.value);
-  });
-}
-
-if (inputEl) {
-  inputEl.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage(inputEl.value);
-    }
-  });
-}
+    sendBtn.onclick = handleSend;
+    input.onkeypress = (e) => { if (e.key === 'Enter') handleSend(); };
+});
